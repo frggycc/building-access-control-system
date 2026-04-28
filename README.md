@@ -105,3 +105,14 @@ The next step is to create a key that can be used to encrypt and decrypt data at
 
 1. Go to KMS again -> **Customer managed keys** -> click the Key ID that we just created
 2. Under the **Key material and rotations** tab, edit **Automatic key rotation** -> Enable -> Enter 365 -> Hit save
+
+---
+# DynamoDB
+<img width="1079" height="277" alt="image" src="https://github.com/user-attachments/assets/ae974a2c-8469-4fbb-9e6f-d4ace96b18c8" />
+
+DynamoDB is our choice for the database service. This part of the guide can be customized based on the attributes you need for your own badge reader. We'll be creating two tables; a table of authroized cards to register or delete RFID data and a table that will be used as a log to keep track of when a card gets scanned to the badge reader.
+## Create building_authroized_cards Table
+<img width="968" height="298" alt="image" src="https://github.com/user-attachments/assets/583eb71f-b451-4b62-a9ce-0305da8bcc57" />
+
+We'll first build the table that will keep track of registered RFID cards/badges
+1. 
