@@ -24,7 +24,7 @@ You will create a project admin user. This user will be the primary account used
 3. Select **Attach policies directly**; Search and select the **AdministratorAccess** policy; Hit next
 4. Hit **Create user** and download the credentials with **Download .csv file**
 
-[HIGHLY RECOMMENDED] Set up MFA for the user
+### [HIGHLY RECOMMENDED] Set up MFA for the user
 <img width="1048" height="459" alt="image" src="https://github.com/user-attachments/assets/c0db7062-f254-4248-9a59-46039725fd7b" />
 
 1. Go to IAM again -> IAM Users -> project-admin -> Security Credentials -> Assign MFA device
