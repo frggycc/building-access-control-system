@@ -1,4 +1,4 @@
-# Building Access Control System Setup Guide
+# Building Access Control System - Setup Guide
 This repository will serve as a tutorial on setting up the AWS side of this system. For assistance with setting up the hardware portion of the system, refer to external resources, as the setup and requirements differ slightly between Raspberry Pi machines. 
 
 You can also refer to the following tutorials:
