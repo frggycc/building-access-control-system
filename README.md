@@ -44,6 +44,8 @@ This is where you will register your Raspberry Pi as an IoT device. You will nee
 4. Enter an appropriate name for the RFID scanner (i.e. *rpi5-door-controller-01*); Hit next
 5. Choose to **Auto-generate a new certificate** and hit next
 6. **Create thing** without adding a policy (we'll create that next)
-7. **DO NOT MISS THIS STEP** Download all the certificates and keys onto a USB so that you can transfer them to the Raspberry Pi
+7. **! DO NOT MISS THIS STEP !** Download all the certificates and keys onto a USB so that you can transfer them to the Raspberry Pi
 
 ## Create an IoT Policy
+<img width="1048" height="567" alt="image" src="https://github.com/user-attachments/assets/20eb2d31-9d73-422f-a8f7-84d58bbb6a8d" />
+
