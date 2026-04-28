@@ -37,7 +37,12 @@ After the account has been set up, log out of root and log back in as *project-a
 ## Create an IoT Thing
 <img width="1060" height="561" alt="image" src="https://github.com/user-attachments/assets/ebc0d4c6-4cf8-4a0e-a29d-6ff18f01b29b" />
 This is where you will register your Raspberry Pi as an IoT device. You will need to create a new IoT Thing instance and then download several certificates into the Raspberry Pi. These certificates tell the IoT Core service that the Raspberry Pi is authorized to communicate with the service.
-
-
+1. Go to the IoT Core service
+2. On the left menu, under **Manage**, click **All devices** -> **Things** -> **Create things**
+3. Choose to **Create single thing**
+4. Enter an appropriate name for the RFID scanner (i.e. *rpi5-door-controller-01*); Hit next
+5. Choose to **Auto-generate a new certificate** and hit next
+6. **Create thing** without adding a policy (we'll create that next)
+7. **DO NOT MISS THIS STEP** Download all the certificates and keys onto a USB so that you can transfer them to the Raspberry Pi
 
 ## Create an IoT Policy
