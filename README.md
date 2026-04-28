@@ -26,4 +26,9 @@ You will create a project admin user. This user will be the primary account used
 1. Go to IAM again -> IAM Users -> project-admin -> Security Credentials -> Assign MFA device
 2. Use an MFA application on your phone like DUO or Google Authenticator
 
-After the account has been set up, log out of root and log back in as *project-admin* for the remaider of the project
+After the account has been set up, log out of root and log back in as *project-admin* for the remainder of the project
+---
+# Register the Raspberry Pi with AWS IoT Core
+## Create an IoT Thing
+
+## Create an IoT Policy
