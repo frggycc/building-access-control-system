@@ -31,7 +31,7 @@ After the account has been set up, log out of root and log back in as *project-a
 ---
 # Register the Raspberry Pi with AWS IoT Core
 ## Create an IoT Thing
-<img width="1068" height="559" alt="image" src="https://github.com/user-attachments/assets/31d66e22-5130-4457-b3ef-07b85e17f0d2" />
+<img width="1060" height="561" alt="image" src="https://github.com/user-attachments/assets/ebc0d4c6-4cf8-4a0e-a29d-6ff18f01b29b" />
 This is where you will register your Raspberry Pi as an IoT device. You will need to create a new IoT Thing instance and then download several certificates into the Raspberry Pi. These certificates tell the IoT Core service that the Raspberry Pi is authorized to communicate with the service.
 
 
