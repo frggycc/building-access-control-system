@@ -55,7 +55,7 @@ The policy for the IoT thing is to prevent several things from happening if the 
 1. Go to the IoT Core service
 2. On the left menu, under **Manage**, click **Security** -> **Policies** -> **Create policy**
 3. Name the policy something relevant (i.e. *building-door-controller-policy*)
-4. Go to JSON view and paste the following
+4. Go to JSON view and paste the following (change the name of your resource when applicable)
 
 ```
 { 
@@ -87,3 +87,21 @@ The policy for the IoT thing is to prevent several things from happening if the 
 
 6. Go back to **Things** under **All devices** and select the badge Thing -> **Certificates** tab -> the **Certificate ID**
 7. Under **Policies**, select **Attach policies** and choose the policy name that you just created
+
+---
+# Customer Managed Key
+<img width="995" height="199" alt="image" src="https://github.com/user-attachments/assets/f82301d3-11bf-4e8c-a313-f2baf33bdae3" />
+
+The next step is to create a key that can be used to encrypt and decrypt data at rest. So that includes your database, S3 archive, and CloudTrail logs.
+1. Go to the Key Management Service (KMS) -> **Customer managed keys** -> **Create a key**
+2. Choose to create a **Symmetric** key to use as a way to **Encrypt and decrypt**; Hit next
+3. Choose an alias for the key (i.e. *building-access-cmk*); Hit next
+4. For the key administrators, add the project-admin user that was created at the beginning of this guide; Hit next
+5. Choose the same project-admin user for the key usage; Hit next again
+6. Click next -> Finish
+
+### [HIGHLY RECOMMENDED] Set up a key rotation schedule
+<img width="982" height="221" alt="image" src="https://github.com/user-attachments/assets/32bfe42e-859b-493d-b29e-8a4fc80cc3a0" />
+
+1. Go to KMS again -> **Customer managed keys** -> click the Key ID that we just created
+2. Under the **Key material and rotations** tab, edit **Automatic key rotation** -> Enable -> Enter 365 -> Hit save
