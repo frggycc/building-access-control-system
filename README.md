@@ -16,6 +16,7 @@ To avoid exceeding the cost of your credits, you can set a budget alert using th
 4. Name the budget however you like and set a monthly limit alongside alerts for when the services exceed that limit
 
 ## Create an IAM Admin User
+<img width="1048" height="577" alt="image" src="https://github.com/user-attachments/assets/775cc894-d189-4a89-94ce-fc6c8d6c9056" />
 You will create a project admin user. This user will be the primary account used to set up all AWS services for this project. It has access to all services but can be deleted by the root user in case the account is compromised.
 1. As the root user, go to the **IAM** service -> **IAM Users**, and then **Create user**
 2. Create a username for the new user (i.e. *project-admin*) and provide them with access to the AWS Console; Set up the password configurations to what you need, and hit next
@@ -23,6 +24,8 @@ You will create a project admin user. This user will be the primary account used
 4. Hit **Create user** and download the credentials with **Download .csv file**
 
 [HIGHLY RECOMMENDED] Set up MFA for the user
+<img width="1048" height="459" alt="image" src="https://github.com/user-attachments/assets/c0db7062-f254-4248-9a59-46039725fd7b" />
+
 1. Go to IAM again -> IAM Users -> project-admin -> Security Credentials -> Assign MFA device
 2. Use an MFA application on your phone like DUO or Google Authenticator
 
