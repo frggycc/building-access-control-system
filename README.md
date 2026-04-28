@@ -111,8 +111,18 @@ The next step is to create a key that can be used to encrypt and decrypt data at
 <img width="1079" height="277" alt="image" src="https://github.com/user-attachments/assets/ae974a2c-8469-4fbb-9e6f-d4ace96b18c8" />
 
 DynamoDB is our choice for the database service. This part of the guide can be customized based on the attributes you need for your own badge reader. We'll be creating two tables; a table of authroized cards to register or delete RFID data and a table that will be used as a log to keep track of when a card gets scanned to the badge reader.
-## Create building_authroized_cards Table
+## Create a Card Registry Table
 <img width="968" height="298" alt="image" src="https://github.com/user-attachments/assets/583eb71f-b451-4b62-a9ce-0305da8bcc57" />
 
 We'll first build the table that will keep track of registered RFID cards/badges
-1. 
+1. Go to the DynamoDB service
+2. On the left menu, go to **Tables** -> **Create Table**
+3. Name the table something relevant to your card registry (i.e. *building_authorized_cards*)
+4. For the partition key, use card_uid (String) with no Sort key
+5. Customize settings -> Table class = **DynamoDB Standard** -> Read/write capacity settings = **On-demand**
+6. Under **Encryption at rest**, choose the **Customer managed key** option and select the key that was created under the CMK portion of this guide
+7. Click Create table and wait for the table to become **Active**
+8. Now start adding items to your table by clicking your table ID and clicking **Create item**
+9. It's up to you to decide what attribute to include in the table before adding your RFID cards/badges. For this project, I chose these attributes
+10. 	- Test
+11. 	-
