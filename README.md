@@ -57,8 +57,8 @@ The policy for the IoT thing is to prevent several things from happening if the 
 3. Name the policy something relevant (i.e. *building-door-controller-policy*)
 4. Go to JSON view and paste the following
 
-`{
-  "Version": "2012-10-17",
+`{ 
+	"Version": "2012-10-17",
   "Statement": [
     {
       "Effect": "Allow",
