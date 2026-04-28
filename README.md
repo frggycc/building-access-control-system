@@ -17,6 +17,7 @@ To avoid exceeding the cost of your credits, you can set a budget alert using th
 
 ## Create an IAM Admin User
 <img width="1048" height="577" alt="image" src="https://github.com/user-attachments/assets/775cc894-d189-4a89-94ce-fc6c8d6c9056" />
+
 You will create a project admin user. This user will be the primary account used to set up all AWS services for this project. It has access to all services but can be deleted by the root user in case the account is compromised.
 1. As the root user, go to the **IAM** service -> **IAM Users**, and then **Create user**
 2. Create a username for the new user (i.e. *project-admin*) and provide them with access to the AWS Console; Set up the password configurations to what you need, and hit next
