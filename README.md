@@ -4,6 +4,8 @@ This repository will serve as a tutorial on setting up the AWS side of this syst
 You can also refer to the following tutorials:
 * [Reading and Writing RFID Cards with Raspberry Pi](https://admantium.medium.com/reading-and-writing-rfid-cards-with-raspberry-pi-eaf042617c61)
 * [Raspberry Pi RFID Tutorial](https://www.sunfounder.com/blogs/news/raspberry-pi-rfid-tutorial-setup-wiring-and-projects-for-beginners?srsltid=AfmBOooPJaidPO0oPqtZhli71AXHEjwFSrdDTy92xi4zjuhLcQMW8f5F)
+
+### NOTE: As you follow through the tutorial, keep track of the ARNs as we implement each service
 ---
 # AWS Account and IAM Admin User
 ## Create an AWS Account
@@ -49,3 +51,8 @@ This is where you will register your Raspberry Pi as an IoT device. You will nee
 ## Create an IoT Policy
 <img width="1048" height="567" alt="image" src="https://github.com/user-attachments/assets/20eb2d31-9d73-422f-a8f7-84d58bbb6a8d" />
 
+The policy for the IoT thing is to prevent several things from happening if the certificates or the system are stolen or compromised. The first is to restrict the certificate to the system; it cannot be used on any other machine. The second is to allow the badge reader to publish only to one topic, where scanned cards are sent to access AWS. Lastly, the final rule is that the badge reader can subscribe and receive the decision from the topic that receives the decision from Lambda.
+1. Go to the IoT Core service
+2. On the left menu, under **Manage**, click **Security** -> **Policies** -> **Create policy**
+3. Name the policy something relevant (i.e. *building-door-controller-policy*)
+4. 
