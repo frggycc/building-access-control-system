@@ -56,6 +56,7 @@ The policy for the IoT thing is to prevent several things from happening if the 
 2. On the left menu, under **Manage**, click **Security** -> **Policies** -> **Create policy**
 3. Name the policy something relevant (i.e. *building-door-controller-policy*)
 4. Go to JSON view and paste the following
+
 `{
   "Version": "2012-10-17",
   "Statement": [
@@ -81,5 +82,6 @@ The policy for the IoT thing is to prevent several things from happening if the 
     }
   ]
 }`
-5. Go back to **Things** under **All devices** and select the badge Thing -> **Certificates** tab -> the **Certificate ID**
-6. Under **Policies**, select **Attach policies** and choose the policy name that you just created
+
+6. Go back to **Things** under **All devices** and select the badge Thing -> **Certificates** tab -> the **Certificate ID**
+7. Under **Policies**, select **Attach policies** and choose the policy name that you just created
