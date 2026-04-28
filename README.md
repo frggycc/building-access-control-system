@@ -7,7 +7,7 @@ You can also refer to the following tutorials:
 ---
 # AWS Account and IAM Admin User
 ## Create an AWS Account
-If you haven't already, go to aws.amazon.com and create an account. AWS offers a free tier where AWS gives a new user a 6-month trial with $100 in credets to use with their service.
+If you haven't already, go to aws.amazon.com and create an account. AWS offers a free tier that gives new users a 6-month trial with $100 in credits to use across their services.
 
 To avoid exceeding the cost of your credits, you can set a budget alert using the Billing and Cost Management service.
 1. On the left side menu of the service, click **Budgets**
@@ -16,4 +16,14 @@ To avoid exceeding the cost of your credits, you can set a budget alert using th
 4. Name the budget however you like and set a monthly limit alongside alerts for when the services exceed that limit
 
 ## Create an IAM Admin User
-You will create a project admin user. This user will be the primary account used to set up all AWS services for this project.
+You will create a project admin user. This user will be the primary account used to set up all AWS services for this project. It has access to all services but can be deleted by the root user in case the account is compromised.
+1. As the root user, go to the **IAM** service -> **IAM Users**, and then **Create user**
+2. Create a username for the new user (i.e. *project-admin*) and provide them with access to the AWS Console; Set up the password configurations to what you need, and hit next
+3. Select **Attach policies directly**; Search and select the **AdministratorAccess** policy; Hit next
+4. Hit **Create user** and download the credentials with **Download .csv file**
+
+[HIGHLY RECOMMENDED] Set up MFA for the user
+1. Go to IAM again -> IAM Users -> project-admin -> Security Credentials -> Assign MFA device
+2. Use an MFA application on your phone like DUO or Google Authenticator
+
+After the account has been set up, log out of root and log back in as *project-admin* for the remaider of the project
