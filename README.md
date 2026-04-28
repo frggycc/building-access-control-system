@@ -7,6 +7,13 @@ You can also refer to the following tutorials:
 ---
 # AWS Account and IAM Admin User
 ## Create an AWS Account
-If you haven't already, go to aws.amazon.com and create an account. If you already have an account, then login.
+If you haven't already, go to aws.amazon.com and create an account. AWS offers a free tier where AWS gives a new user a 6-month trial with $100 in credets to use with their service.
 
-After 
+To avoid exceeding the cost of your credits, you can set a budget alert using the Billing and Cost Management service.
+1. On the left side menu of the service, click *Budgets*
+2. On the top, click *Create budget*
+3. Select *Use a template* and choose the *Monthly cost budget* template
+4. Name the budget however you like and set a monthly limit alongside alerts for when the services exceed that limit
+
+## Create an IAM Admin User
+You will create a project admin user. This user will be the primary account used to set up all AWS services for this project.
