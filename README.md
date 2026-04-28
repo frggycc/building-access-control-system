@@ -27,6 +27,7 @@ You will create a project admin user. This user will be the primary account used
 2. Use an MFA application on your phone like DUO or Google Authenticator
 
 After the account has been set up, log out of root and log back in as *project-admin* for the remainder of the project
+
 ---
 # Register the Raspberry Pi with AWS IoT Core
 ## Create an IoT Thing
