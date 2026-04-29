@@ -135,9 +135,13 @@ event_uid (String), timestamp (Number), card_uid (String), cardholder (String), 
 
 ---
 # VPC Private Network
-By default, Lambda is unrestricted, with no network configuration. Meaning, Lambda could establish a connection to an external server, which we want to avoid. So we will create a Virtual Private Cloud for Lambda to deploy to. We'll dictate which AWS services Lambda can communicate with, which are DynamoDB, KMS, and IoT Core.
+<img width="1641" height="788" alt="image" src="https://github.com/user-attachments/assets/c018eff6-1fcd-4233-b40c-0c00f3d929e8" />
 
-## Create the VPC
+By default, Lambda is unrestricted and has no network configuration. Meaning, Lambda could establish a connection to an external server, which we want to avoid. So we will create a Virtual Private Cloud for Lambda to deploy to. We'll dictate which AWS services Lambda can communicate with: DynamoDB, KMS, and IoT Core.
+
+## Create the VPC and Subnets
 ## Create Security Groups
+<img width="1269" height="498" alt="image" src="https://github.com/user-attachments/assets/c4c5851d-9cc2-48e7-8b66-b67c28660a42" />
+
 ## Create VPC Endpoints
 ## Create a NAT Gateway
