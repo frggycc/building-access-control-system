@@ -123,6 +123,21 @@ We'll first build the table that will keep track of registered RFID cards/badges
 6. Under **Encryption at rest**, choose the **Customer managed key** option and select the key that was created under the CMK portion of this guide
 7. Click Create table and wait for the table to become **Active**
 8. Now start adding items to your table by clicking your table ID and clicking **Create item**
-9. It's up to you to decide what attribute to include in the table before adding your RFID cards/badges. For this project, I chose these attributes
-10. 	- Test
-11. 	-
+9. It's up to you to decide what attribute to include in the table before adding your RFID cards/badges. For this project, I chose these attributes: 
+card_uid (String), cardholder (String), access_level (List of Strings), allowed_hours (String, format HH:MM-HH:MM), active (Boolean)
+
+## Create a Log Table
+<img width="1462" height="342" alt="image" src="https://github.com/user-attachments/assets/022bde86-ac72-4b79-af85-e1932fb55f7e" />
+
+1. Follow the same steps as the previous section (use the CMK, have capacity mode set to **On-demand**, etc), except name the partition key something more appropriate (i.e. *event_id* (String)) -> Click **Create table**
+2. Start adding items to your table as you did in the previous section; Again, its up to you to decide what attributes ot include but this is what I chose:
+event_uid (String), timestamp (Number), card_uid (String), cardholder (String), date_time (String), decision (DENIED, GRANTED), location (String), reader_id (String), reason (String)
+
+---
+# VPC Private Network
+By default, Lambda is unrestricted, with no network configuration. Meaning, Lambda could establish a connection to an external server, which we want to avoid. So we will create a Virtual Private Cloud for Lambda to deploy to. We'll dictate which AWS services Lambda can communicate with, which are DynamoDB, KMS, and IoT Core.
+
+## Create the VPC
+## Create Security Groups
+## Create VPC Endpoints
+## Create a NAT Gateway
