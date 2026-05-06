@@ -183,6 +183,10 @@ The NAT gateway
 # AWS Config for Compliance
 <img width="1208" height="521" alt="image" src="https://github.com/user-attachments/assets/e1b260a2-8d21-497c-a1ba-f0e2ee60e7fa" />
 
-The AWS Config service will help ensure the system remains compliant with NIST 800-53 controls, which can be tracked with AWS Config. We will enable AWS Config and deploy rules that reflect these trackable controls.
+The AWS Config service helps ensure the system remains compliant with NIST 800-53 controls, which can be tracked in AWS Config. We will enable AWS Config and deploy rules that reflect these trackable controls.
 
-
+1. Go to the AWS Config service and select Get started
+2. For all resources, you will want to create a new S3 bucket for the delivery of all recordings
+3. Create a new service-linked role and click Next, and confirm
+4. Go back to Config -> Rule -> Add rule based on what you want to focus on in terms of compliance with the NIST 800-53. Examples include cloud-trail-enabled, iam-user-mfa-enabled, amd kms-cmk-not-scheduled-for-deletion.
+5. After choosing each rule, click Next and Save and wait for AWS to evaluate all the newly added rules for compliance
