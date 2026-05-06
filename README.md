@@ -168,9 +168,21 @@ This group ensures that Lambda has no inbound rules, as communication from the I
 Create endpoints so that Lambda can privately communicate with other services, such as DynamoDB, S3, and KMS. This allows Lambda to run without having access to the public internet.
 
 1. Go to the VPC service and on the left menu, click on **Endpoints** -> **Create endpoint**
-2. There are going to be 3 endpoints for each require service that will be inside the VPC
+2. There are going to be 3 endpoints for each required service that will be inside the VPC
 3. Endpoint 1: Service = Dynamodb, Type = Gateway, VPC = the one created earlier
 4. Endpoint 2: Service = s3, Type = Gateway, VPC = the one created earlier
 5. Endpoint 3: Service = kmd, Type = Interface, Subnets = Lambda subnet, Secruity group = VPC endpoint security group created earlier
 
 ## Create a NAT Gateway
+The NAT gateway
+
+# Creating the 4 IAM Roles
+
+# Lambda Functions
+
+# AWS Config for Compliance
+<img width="1208" height="521" alt="image" src="https://github.com/user-attachments/assets/e1b260a2-8d21-497c-a1ba-f0e2ee60e7fa" />
+
+The AWS Config service will help ensure the system remains compliant with NIST 800-53 controls, which can be tracked with AWS Config. We will enable AWS Config and deploy rules that reflect these trackable controls.
+
+
