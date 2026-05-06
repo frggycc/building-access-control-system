@@ -140,8 +140,37 @@ event_uid (String), timestamp (Number), card_uid (String), cardholder (String), 
 By default, Lambda is unrestricted and has no network configuration. Meaning, Lambda could establish a connection to an external server, which we want to avoid. So we will create a Virtual Private Cloud for Lambda to deploy to. We'll dictate which AWS services Lambda can communicate with: DynamoDB, KMS, and IoT Core.
 
 ## Create the VPC and Subnets
+<img width="1634" height="360" alt="image" src="https://github.com/user-attachments/assets/675fe4f3-d143-468a-aff9-75ce1e4be0b2" />
+
+1. Go to the VPC service, your VPCs and Create VPC
+2. Name your VPC something appropriate (i.e. *building-security-vpc*)
+3. IPv4 CIDR: 10.0.0.0/16 with no IPv6
+4. Create the VPC
+5. After creating the VPC, go to the new VPC -> **Actions** -> **Edit VPC settings**
+6. Enable hostnames and DNS resolutions
+7. Create a subnet for Lambda using CIDR 10.0.1.0/24
+
 ## Create Security Groups
 <img width="1269" height="498" alt="image" src="https://github.com/user-attachments/assets/c4c5851d-9cc2-48e7-8b66-b67c28660a42" />
 
+This group ensures that Lambda has no inbound rules, as communication from the IoT core to Lambda is a service-to-service call. Additionally, the outbound rule applies to the private endpoints and the single NAT gateway for sending decisions.
+
+1. Go to EC2 -> Security Groups -> Create security group
+2. Name it something appropriate (i.e. *lambda-access-sg*) and set the VPC to the one created earlier
+3. Inbound rules = None
+4. Old outbound rule: delete the default **allow-all** rule to add a new outbound rule
+5. New outbound rule: HTTPS, Port=443, Destination 10.0.0.0/16
+6. Go to EC2 -> Security Groups -> Create a new security group
+7. This is for endpoints; Name it something appropriate (i.e. *vpc-endpoint-sg*)
+8. For the new security group, HTTPS port 443, from 10.0.0.0/16
+
 ## Create VPC Endpoints
+Create endpoints so that Lambda can privately communicate with other services, such as DynamoDB, S3, and KMS. This allows Lambda to run without having access to the public internet.
+
+1. Go to the VPC service and on the left menu, click on **Endpoints** -> **Create endpoint**
+2. There are going to be 3 endpoints for each require service that will be inside the VPC
+3. Endpoint 1: Service = Dynamodb, Type = Gateway, VPC = the one created earlier
+4. Endpoint 2: Service = s3, Type = Gateway, VPC = the one created earlier
+5. Endpoint 3: Service = kmd, Type = Interface, Subnets = Lambda subnet, Secruity group = VPC endpoint security group created earlier
+
 ## Create a NAT Gateway
