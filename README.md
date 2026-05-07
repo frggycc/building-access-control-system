@@ -419,7 +419,60 @@ Go to each role, click Add permissions -> Create inline policy, and paste the fo
 }
 ```
 
+### For the Lambda Role
+```
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "ReadCards",
+			"Effect": "Allow",
+			"Action": "dynamodb:GetItem",
+			"Resource": "arn:aws:dynamodb:*:*:table/building_authorized_cards"
+		},
+		{
+			"Sid": "WriteLog",
+			"Effect": "Allow",
+			"Action": "dynamodb:PutItem",
+			"Resource": "arn:aws:dynamodb:*:*:table/building_access_log"
+		},
+		{
+			"Sid": "PublishDecision",
+			"Effect": "Allow",
+			"Action": "iot:Publish",
+			"Resource": "arn:aws:iot:*:*:topic/building/access/decision"
+		},
+		{
+			"Sid": "UseKMS",
+			"Effect": "Allow",
+			"Action": [
+				"kms:Decrypt",
+				"kms:GenerateDataKey"
+			],
+			"Resource": "*",
+			"Condition": {
+				"StringEquals": {
+					"kms:ViaService": "dynamodb.us-east-1.amazonaws.com"
+				}
+			}
+		},
+		{
+			"Sid": "Logs",
+			"Effect": "Allow",
+			"Action": [
+				"logs:CreateLogGroup",
+				"logs:CreateLogStream",
+				"logs:PutLogEvents"
+			],
+			"Resource": "arn:aws:logs:*:*:*"
+		}
+	]
+}
+```
+For the Lambda Role, also attach the AWS policy *AWSLambdaVPCAccessExecutionRole*
+Attach permissions -> Attach polcies -> Search for AWSLambdaVPCAccessExecutionRole and select it
 
+---
 # Lambda Functions
 Our Lambda function will do two things. It will create and send a query to our database table, building_authorized_cards, using the card UID from the JSON sent by the IoT device (our badge reader). Based on what is returned, it will compare it with other data recorded when our card was scanned, such as the scanner location and the time the card was scanned. Then it will check for four things:
 1. Did Lambda retrieve any information from the table? In other words, does the card UID exist in the table?
