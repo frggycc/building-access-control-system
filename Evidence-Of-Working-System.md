@@ -14,4 +14,7 @@ This table shows the access logs for each scan that the badge reader read. It pr
 3. Carol: Fails the "activation" condition
 4. Unknown: Fails the "registered cards" condition
 
-The only condition not shown is the condition where access is denied due to the time of the scan being done outside of the *allowed_hours* assinged to the user of the register card.
+The only condition not shown is the one where access is denied because the scan was performed outside the *allowed_hours* assigned to the user of the register card. To showcase that, I temporarily set Alice's *allowed_hours* to one that would fail when I scanned the card. That can be seen here:
+<img width="939" height="42" alt="image" src="https://github.com/user-attachments/assets/16f8c139-06bf-4b66-a407-17c56d220927" />
+<img width="1538" height="40" alt="image" src="https://github.com/user-attachments/assets/0735265b-a47e-4109-be1d-704f7956465a" />
+
