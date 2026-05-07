@@ -188,6 +188,8 @@ Our Lambda function will do two things. It will create and send a query to our d
 If all 4 conditions pass, Lambda sets the decision to GRANTED and sends it to IoT Core, which then sends it back to the IoT device.
 
 ## Create and Deploy Lambda Function
+<img width="1302" height="499" alt="image" src="https://github.com/user-attachments/assets/d75caa9c-f650-4616-8d52-7854e932fe68" />
+
 1. Go to the Lambda service and click **Create function**; Author it from scratch
 2. Name it something appropriate (i.e. *building-access-decision*) and use Python 3.12; Execute it as the *LambdaAccessRole* created earlier
 3. Create function
@@ -196,6 +198,10 @@ If all 4 conditions pass, Lambda sets the decision to GRANTED and sends it to Io
 6. IoT Core URL Location: **IoT Core** -> **Settings** -> Device data endpoint
 7. Go to **Configuration8* again in your Lambda function -> **VPC** -> **Edit**; Add your building-security-vpc VPC and set your security group to the *lambda-access-engine-sg* (or however your named yours)
 8. Click **Save**
+
+## Create IoT Core Rule
+Creating this IoT Core rule creates a trigger for Lambda to take the entire JSOn payload from *building/access/scan*
+1. 
 
 # AWS Config for Compliance
 <img width="1208" height="521" alt="image" src="https://github.com/user-attachments/assets/e1b260a2-8d21-497c-a1ba-f0e2ee60e7fa" />
