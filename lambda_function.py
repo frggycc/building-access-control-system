@@ -1,11 +1,11 @@
 import json, boto3, uuid, os
 from datetime import datetime, timezone
+import zoneinfo
 
 dynamodb = boto3.resource('dynamodb')
 iot_data = boto3.client('iot-data',
     endpoint_url=f"https://{os.environ['IOT_ENDPOINT']}")
 
-# UPDATE THE NAME OF YOUR TABLES TO THE NAMES THAT YOU USE FOR YOUR OWN TABLES
 CARDS_TABLE = dynamodb.Table('building_authorized_cards')
 LOG_TABLE   = dynamodb.Table('building_access_log')
 
@@ -45,13 +45,19 @@ def evaluate_access(card_uid, location, timestamp):
         start_str, end_str = hours_str.split('-')
         sh, sm = map(int, start_str.split(':'))
         eh, em = map(int, end_str.split(':'))
-      
-        now = datetime.fromtimestamp(timestamp, tz=timezone.utc)
+        LOCAL_TZ = zoneinfo.ZoneInfo('America/Los_Angeles')
+        now = datetime.fromtimestamp(timestamp, tz=LOCAL_TZ)
         current_min = now.hour * 60 + now.minute
-      
-        if not (sh * 60 + sm <= current_min <= eh * 60 + em):
+        start_min = sh * 60 + sm
+        end_min = eh * 60 + em
+
+        if start_min <= end_min:
+            in_window = start_min <= current_min <= end_min
+        else:
+            in_window = current_min >= start_min or current_min <= end_min
+        if not in_window:
             return 'DENIED', 'outside_allowed_hours', cardholder
-        
+
         return 'GRANTED', None, cardholder
 
     except Exception as e:
@@ -80,7 +86,6 @@ def log_event(card_uid, cardholder, reader_id, location, decision, reason, times
 
 def publish_decision(reader_id, decision):
     iot_data.publish(
-        # CHANGE THIS IF YOU HAVE YOUR TOPIC NAMED DIFFERENTLY
         topic='building/access/decision',
         qos=1,
         payload=json.dumps({'reader_id': reader_id, 'decision': decision})
