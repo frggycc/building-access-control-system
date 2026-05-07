@@ -16,5 +16,6 @@ This table shows the access logs for each scan that the badge reader read. It pr
 
 The only condition not shown is the one where access is denied because the scan was performed outside the *allowed_hours* assigned to the user of the register card. To showcase that, I temporarily set Alice's *allowed_hours* to one that would fail when I scanned the card. That can be seen here:
 <img width="939" height="42" alt="image" src="https://github.com/user-attachments/assets/16f8c139-06bf-4b66-a407-17c56d220927" />
+Alice's *allowed_hours* changed
 <img width="1538" height="40" alt="image" src="https://github.com/user-attachments/assets/0735265b-a47e-4109-be1d-704f7956465a" />
-
+Alice's card is denied; the reason being that the scan occured outside of allowed hours
