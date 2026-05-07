@@ -200,8 +200,13 @@ If all 4 conditions pass, Lambda sets the decision to GRANTED and sends it to Io
 8. Click **Save**
 
 ## Create IoT Core Rule
+<img width="930" height="459" alt="image" src="https://github.com/user-attachments/assets/7ac448a2-2ae1-4d3f-a217-553e5c96a587" />
+
 Creating this IoT Core rule creates a trigger for Lambda to take the entire JSOn payload from *building/access/scan*
-1. 
+1. Go to the IoT Core and go to **Message routing** -> **Rules** -> **Create rule**
+2. Create a rule name for decision making made by Lambda (i.e. *BuildingAccessDecisionRule*)
+3. For the SQL statement, SELECT * FROM 'building/access/scan'
+4. For the rule actions, Lambda -> select **building-access-decision** and click **Create**
 
 # AWS Config for Compliance
 <img width="1208" height="521" alt="image" src="https://github.com/user-attachments/assets/e1b260a2-8d21-497c-a1ba-f0e2ee60e7fa" />
