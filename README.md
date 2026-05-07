@@ -174,9 +174,251 @@ Create endpoints so that Lambda can privately communicate with other services, s
 5. Endpoint 3: Service = kmd, Type = Interface, Subnets = Lambda subnet, Secruity group = VPC endpoint security group created earlier
 
 ## Create a NAT Gateway
-The NAT gateway
+The NAT gateway is how Lambda communicates and sends decisions back to the IoT Core service. Initially, I tried to create an endpoint like the rest of the services; however, I kept running into issues, so I created a NAT Gateway that only allows traffic out, not in.
+
+1. Create another subnet: **VPC** -> **Subnets** -> **Create subnet**
+2. Name the subnet something appropriate (i.e. *public-nat-subnet*) and use us-east-1a and CIDR = 10.0.3.0/24
+3. Create an Internet Gateway under **VPC** -> **Internet gateways** and attach it to our *building-security-vpc* created earlier; Name it something appropriate (i.e. *building-igw*)
+4. Create a route table under **VPC** -> **Route tables** -> Create route table using the *building-security-vpc*
+5. Edit routes to the route table and add a route to destination 0.0.0.0/0 pointing to the Internet Gateway we created in step 3
+6. Go to **VPC** -> **NAT gateways** -> **Create NAT gateway**
+7. Set the subnet to the public NAT subnet we created in step 2, Connectivity -> Public, and Allocate new Elastic IP
 
 # Creating the 4 IAM Roles
+The easiest way to implement each role is to create each one and then create inline policies using JSON
+
+## Create/Name the 4 IAM Roles
+### Create/Name the 3 User Roles
+1. Go to the **Roles** service -> **Create role** -> **AWS account** for the trusted entity type
+2. Use the desired AWS account associated with the system
+3. Skip through the permissions, name the role, and click **Create role**
+4. Do this for each of the user IAM roles (i.e. *SecurityAuditRole*, *FacilitiesAdminRole*, *KMSAdminRole*)
+
+### Create/Name the Service Role (for Lambda)
+1. Go to the **Roles** service -> **Create role** -> **AWS service** for the trusted entity type
+2. Use the desired AWS account associated with the system
+3. Skip through the permissions, name the role (i.e. *LambdaAccessRole*), and click **Create role**
+
+## Apply Inline Policies
+Go to each role, click Add permissions -> Create inline policy, and paste the following into the JSON tab. Note that your ARNs in each JSON will differ from mine. Change them according to your ARNs.
+
+### For the Security Audit Role
+```
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "ListAndDescribeTables",
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:ListTables",
+				"dynamodb:DescribeTable"
+			],
+			"Resource": "*"
+		},
+		{
+			"Sid": "ReadAccessLog",
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:Query",
+				"dynamodb:Scan",
+				"dynamodb:GetItem"
+			],
+			"Resource": "arn:aws:dynamodb:us-east-1:[AWS ACCOUNT #]:table/building_access_log"
+		},
+		{
+			"Sid": "DenyCardRegistry",
+			"Effect": "Deny",
+			"Action": "dynamodb:*",
+			"Resource": "arn:aws:dynamodb:us-east-1:[AWS ACCOUNT #]:table/building_authorized_cards"
+		},
+		{
+			"Sid": "DecryptForDynamoDB",
+			"Effect": "Allow",
+			"Action": [
+				"kms:Decrypt",
+				"kms:DescribeKey",
+				"kms:GenerateDataKey"
+			],
+			"Resource": "arn:aws:kms:us-east-1:[AWS ACCOUNT #]:key/[KEY #]",
+			"Condition": {
+				"StringEquals": {
+					"kms:ViaService": "dynamodb.us-east-1.amazonaws.com"
+				}
+			}
+		},
+		{
+			"Sid": "ReadCloudTrail",
+			"Effect": "Allow",
+			"Action": [
+				"cloudtrail:LookupEvents",
+				"cloudtrail:GetTrail",
+				"cloudtrail:GetTrailStatus",
+				"cloudtrail:ListTrails"
+			],
+			"Resource": "*"
+		},
+		{
+			"Sid": "ReadCloudWatch",
+			"Effect": "Allow",
+			"Action": [
+				"cloudwatch:GetMetricData",
+				"cloudwatch:DescribeAlarms",
+				"cloudwatch:GetMetricStatistics",
+				"cloudwatch:ListMetrics"
+			],
+			"Resource": "*"
+		}
+	]
+}
+```
+
+### For the Facilities Admin Role
+```
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "ListAndDescribeTables",
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:ListTables",
+				"dynamodb:DescribeTable"
+			],
+			"Resource": "*"
+		},
+		{
+			"Sid": "ManageCards",
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:PutItem",
+				"dynamodb:UpdateItem",
+				"dynamodb:GetItem",
+				"dynamodb:Scan",
+				"dynamodb:Query",
+				"dynamodb:DescribeTable"
+			],
+			"Resource": "arn:aws:dynamodb:us-east-1:[AWS ACCOUNT #]:table/building_authorized_cards"
+		},
+		{
+			"Sid": "ReadLog",
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:GetItem",
+				"dynamodb:Scan",
+				"dynamodb:Query",
+				"dynamodb:DescribeTable"
+			],
+			"Resource": "arn:aws:dynamodb:us-east-1:[AWS ACCOUNT #]:table/building_access_log"
+		},
+		{
+			"Sid": "DenyLogTampering",
+			"Effect": "Deny",
+			"Action": [
+				"dynamodb:DeleteItem",
+				"dynamodb:UpdateItem"
+			],
+			"Resource": "arn:aws:dynamodb:us-east-1:[AWS ACCOUNT #]:table/building_access_log"
+		},
+		{
+			"Sid": "DecryptForDynamoDB",
+			"Effect": "Allow",
+			"Action": [
+				"kms:Decrypt",
+				"kms:DescribeKey",
+				"kms:GenerateDataKey"
+			],
+			"Resource": "arn:aws:kms:us-east-1:[AWS ACCOUNT #]:key/[KEY #]",
+			"Condition": {
+				"StringEquals": {
+					"kms:ViaService": "dynamodb.us-east-1.amazonaws.com"
+				}
+			}
+		}
+	]
+}
+```
+
+### For KMS Admin
+```
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "ListTables",
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:ListTables"
+			],
+			"Resource": "*"
+		},
+		{
+			"Sid": "ManageKMSKeys",
+			"Effect": "Allow",
+			"Action": [
+				"kms:CreateKey",
+				"kms:DescribeKey",
+				"kms:EnableKey",
+				"kms:DisableKey",
+				"kms:EnableKeyRotation",
+				"kms:DisableKeyRotation",
+				"kms:GetKeyRotationStatus",
+				"kms:ListKeys",
+				"kms:ListAliases",
+				"kms:CreateAlias",
+				"kms:UpdateAlias",
+				"kms:PutKeyPolicy",
+				"kms:GetKeyPolicy",
+				"kms:ScheduleKeyDeletion",
+				"kms:CancelKeyDeletion",
+				"kms:TagResource",
+				"kms:ListResourceTags"
+			],
+			"Resource": "*"
+		},
+		{
+			"Sid": "ViewCloudTrail",
+			"Effect": "Allow",
+			"Action": [
+				"cloudtrail:LookupEvents",
+				"cloudtrail:GetTrail",
+				"cloudtrail:GetTrailStatus",
+				"cloudtrail:ListTrails",
+				"cloudtrail:UpdateTrail"
+			],
+			"Resource": "*"
+		},
+		{
+			"Sid": "ViewCloudWatchLogs",
+			"Effect": "Allow",
+			"Action": [
+				"cloudwatch:GetMetricData",
+				"cloudwatch:DescribeAlarms",
+				"cloudwatch:ListMetrics",
+				"logs:DescribeLogGroups",
+				"logs:DescribeLogStreams",
+				"logs:GetLogEvents",
+				"logs:FilterLogEvents"
+			],
+			"Resource": "*"
+		},
+		{
+			"Sid": "DenyDynamoDBData",
+			"Effect": "Deny",
+			"Action": [
+				"dynamodb:GetItem",
+				"dynamodb:Scan",
+				"dynamodb:Query",
+				"dynamodb:PutItem",
+				"dynamodb:UpdateItem",
+				"dynamodb:DeleteItem"
+			],
+			"Resource": "*"
+		}
+	]
+}
+```
+
 
 # Lambda Functions
 Our Lambda function will do two things. It will create and send a query to our database table, building_authorized_cards, using the card UID from the JSON sent by the IoT device (our badge reader). Based on what is returned, it will compare it with other data recorded when our card was scanned, such as the scanner location and the time the card was scanned. Then it will check for four things:
