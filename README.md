@@ -156,7 +156,7 @@ By default, Lambda is unrestricted and has no network configuration. Meaning, La
 This group ensures that Lambda has no inbound rules, as communication from the IoT core to Lambda is a service-to-service call. Additionally, the outbound rule applies to the private endpoints and the single NAT gateway for sending decisions.
 
 1. Go to EC2 -> Security Groups -> Create security group
-2. Name it something appropriate (i.e. *lambda-access-sg*) and set the VPC to the one created earlier
+2. Name it something appropriate (i.e. *lambda-access-engine-sg*) and set the VPC to the one created earlier
 3. Inbound rules = None
 4. Old outbound rule: delete the default **allow-all** rule to add a new outbound rule
 5. New outbound rule: HTTPS, Port=443, Destination 10.0.0.0/16
@@ -179,6 +179,23 @@ The NAT gateway
 # Creating the 4 IAM Roles
 
 # Lambda Functions
+Our Lambda function will do two things. It will create and send a query to our database table, building_authorized_cards, using the card UID from the JSON sent by the IoT device (our badge reader). Based on what is returned, it will compare it with other data recorded when our card was scanned, such as the scanner location and the time the card was scanned. Then it will check for four things:
+1. Did Lambda retrieve any information from the table? In other words, does the card UID exist in the table?
+2. Is the card active? (is active set to TRUE?)
+3. Is the location where the card was scanned part of the card’s access list?
+4. Is the current time of the scan within the allowed hours?
+
+If all 4 conditions pass, Lambda sets the decision to GRANTED and sends it to IoT Core, which then sends it back to the IoT device.
+
+## Create and Deploy Lambda Function
+1. Go to the Lambda service and click **Create function**; Author it from scratch
+2. Name it something appropriate (i.e. *building-access-decision*) and use Python 3.12; Execute it as the *LambdaAccessRole* created earlier
+3. Create function
+4. In the code tab, you can copy and paste the code in this repo called lambda_function.py and change it based on your needs or differences in your JSON payload
+5. Go to **Configuration** -> **Environment variables** -> **Edit** and add the key IOT_ENDPOINT; Paste your IoT Core endpoint URL
+6. IoT Core URL Location: **IoT Core** -> **Settings** -> Device data endpoint
+7. Go to **Configuration8* again in your Lambda function -> **VPC** -> **Edit**; Add your building-security-vpc VPC and set your security group to the *lambda-access-engine-sg* (or however your named yours)
+8. Click **Save**
 
 # AWS Config for Compliance
 <img width="1208" height="521" alt="image" src="https://github.com/user-attachments/assets/e1b260a2-8d21-497c-a1ba-f0e2ee60e7fa" />
