@@ -184,6 +184,7 @@ The NAT gateway is how Lambda communicates and sends decisions back to the IoT C
 6. Go to **VPC** -> **NAT gateways** -> **Create NAT gateway**
 7. Set the subnet to the public NAT subnet we created in step 2, Connectivity -> Public, and Allocate new Elastic IP
 
+---
 # Creating the 4 IAM Roles
 The easiest way to implement each role is to create each one and then create inline policies using JSON
 
@@ -503,6 +504,7 @@ Creating this IoT Core rule creates a trigger for Lambda to take the entire JSOn
 3. For the SQL statement, SELECT * FROM 'building/access/scan'
 4. For the rule actions, Lambda -> select **building-access-decision** and click **Create**
 
+---
 # AWS Config for Compliance
 <img width="1208" height="521" alt="image" src="https://github.com/user-attachments/assets/e1b260a2-8d21-497c-a1ba-f0e2ee60e7fa" />
 
