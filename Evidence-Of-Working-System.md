@@ -1,3 +1,7 @@
+## Demo
+This is a video of me using the system and using the 4 RFID cards/fobs. A represents Alice, B represents Bob, C represents Carol, and the blue RFID fob represents an unknown/unregistered card.
+[Live Demo](https://youtube.com/shorts/ESbdouBwf5w?feature=share)
+
 ## Registered Card List
 <img width="1033" height="300" alt="image" src="https://github.com/user-attachments/assets/fe72764a-35de-4372-ade0-acab8db4c232" />
 
